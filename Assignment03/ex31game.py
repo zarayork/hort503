@@ -18,9 +18,10 @@ if choice == "1":
     elif morality == "2":
         print("""Options: 2. Deposit it into an off shore account
         3. Splurge""")
+        choice = input("~ ")
     else:
         print("You have to face your choices sooner or later, you should have made a choice.")
-choice = input("~ ")
+
 
 elif choice == "2":
     print("1. Leave the offshore account to accrue interest")
@@ -28,24 +29,28 @@ elif choice == "2":
 
     offshore = input("> ")
 
-    if offshore == "1" or offshore == "2":
+    if offshore == "1":
         print("You will probably die without ever using it, you should have kept your conscience clear and turned it in.")
+    elif offshore == "2":
         print("Have fun with the stress.")
     else:
         print("Not doing anything was not an option. You might need to work on being decisive.")
 
 elif choice == "3":
     print("Splurge")
-    print("1. Buy a fancy car.")
-    print("2. Buy a house.")
-    print("3. Buy fancy clothes and accessories.")
-    print("4. Set up a rescue for animals")
+    print("""1. Buy a fancy car.
+    2. Buy a house.
+    3. Buy fancy clothes and accessories.
+    4. Set up a rescue for animals""")
 
     spending = input("~")
-    if spending == "1" or spending == "2" or spending == "3" or spending == "4":
+    if spending == "1":
         print("Ostentatious. You had better hope that it was not money from an unsavory individual.")
+    elif spending == "2":
         print("That is not even close to enough for a decent house, maybe property, but the government will notice.")
+    elif spending == "3":
         print("Ostentatious. You had better hope that it was not money from an unsavory individual. Now you look like competition that stole the money on purpose.")
+    elif spending == "4":
         print("Probably safest, and you can help animals. Good job picking something that won't draw attention.")
 
 else:

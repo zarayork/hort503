@@ -22,7 +22,7 @@ while_loop(max_n)
 
 #Study Drills
 numbers = []
-for i in range(0, 9):
+for i in range(0, 9, 2):
     print(f"Adding increment to the list.")
     i = i + int(increment)
     numbers.append(i)

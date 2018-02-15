@@ -7,14 +7,10 @@
 .. moduleauthor:: Zara York
 """
 from sys import argv
-from os.path import splitext
-from os.path import os
 import io
+
 #Set arguments as global variables. Minimums converted from strings to integers.
-script, in_file, out_file, min_q, min_size = argv
-print(argv)
-min_q = int(min_q)
-min_size = int(min_size)
+
 def get_read(fq):
     """Extract a single read from a FASTQ file.
     Reads in a FASTQ file are stored in 4 lines that contain the
@@ -60,20 +56,18 @@ def trim_read_front(read, min_q, min_size):
     quality = read[3]
     new_qual = quality
     pos = read[3]
-    length = len(new_seq)
     for pos in quality:
         q = ord(pos)- 33
-        print(q)
         if q < min_q:
             new_seq = new_seq[1:]
             new_qual = new_qual[1:]
-        elif q >=min_q and length >= min_size:
+        elif q >=min_q and len(new_seq) >= min_size:
             return [read[0], new_seq + '\n', read[2], new_qual + '\n']
-        elif length < min_size:
-            return ("Fail")
+        else:
+            return False
+    return False
 # The main function for the script.
-#
-def main():
+def main(argv):
     """The main function of this script.
     After trimming is completed, the function prints out three status lines. The
     first indicates the total number of reads that were found. The second
@@ -91,7 +85,9 @@ def main():
        - An integer indicating how large a read's nucleotide sequence must
          be after trimming in order to keep it.
     """
-    pass
+    script, in_file, out_file, min_q, min_size = argv
+    min_q = int(min_q)
+    min_size = int(min_size)
     print("Opening SP1.trim.fq file for writing...")
     output = open(out_file, 'w')
     print("Opening SP1.fq file for reading...")
@@ -102,21 +98,21 @@ def main():
         curr_read = get_read(fq=textiobase_obj)
         while curr_read:
             quality_read = trim_read_front(curr_read, min_q, min_size)
-            if quality_read == "Fail":
-                failed_reads += 1
-                total_reads += 1
-            else:
+            if quality_read:
                 output.write(quality_read[0])
                 output.write(quality_read[1])
                 output.write(quality_read[2])
                 output.write(quality_read[3])
                 passed_reads += 1
                 total_reads += 1
-                curr_read = get_read(fq=textiobase_obj)
+            else:
+                failed_reads += 1
+                total_reads += 1
+            curr_read = get_read(fq=textiobase_obj)
     print(f"""{total_reads} reads were found.
-        {failed_reads} reads were removed.
-        {passed_reads} reads were trimmed and kept.
-        Done.""")
+{failed_reads} reads were removed.
+{passed_reads} reads were trimmed and kept.
+Done.""")
 
 # Begin the program by calling the main function.
-main()
+main(argv)

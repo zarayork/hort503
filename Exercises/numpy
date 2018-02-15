@@ -1,0 +1,2 @@
+import numpy as no
+np.random.random(4)

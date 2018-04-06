@@ -66,6 +66,23 @@ def trim_read_front(read, min_q, min_size):
         else:
             return False
     return False
+
+def trim_read_end(read, min_q, min_size):
+    new_seq = read[1]
+    quality = read[3]
+    new_qual = quality
+    pos = read[3]
+    for pos in quality:
+        q = ord(pos)- 33
+        if q < min_q:
+            new_seq = new_seq[1:]
+            new_qual = new_qual[1:]
+        elif q >=min_q and len(new_seq) >= min_size:
+            return [read[0], new_seq + '\n', read[2], new_qual + '\n']
+        else:
+            return False
+    return False
+
 # The main function for the script.
 def main(argv):
     """The main function of this script.
